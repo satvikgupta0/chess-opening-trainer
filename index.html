@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Opening Trainer — Repertoire & Move Recall</title>
+  <meta name="description" content="A refined chess opening practice tool for beginner and intermediate players to learn lines, drill moves, review traps, and build an opening repertoire.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Desktop Sidebar Navigation -->
+    <aside class="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-header">
+        <div class="brand-container">
+          <svg class="brand-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <div>
+            <h1 class="brand-title">Chess Opening Trainer</h1>
+            <span class="brand-tagline">Repertoire & Precision</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li>
+            <a href="#dashboard" class="nav-link active" data-view-target="dashboard">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="9"></rect>
+                <rect x="14" y="3" width="7" height="5"></rect>
+                <rect x="14" y="12" width="7" height="9"></rect>
+                <rect x="3" y="16" width="7" height="5"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#practice" class="nav-link" data-view-target="practice">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Practice Board</span>
+            </a>
+          </li>
+          <li>
+            <a href="#library" class="nav-link" data-view-target="library">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              <span>Opening Library</span>
+            </a>
+          </li>
+          <li>
+            <a href="#traps" class="nav-link" data-view-target="traps">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Common Traps</span>
+            </a>
+          </li>
+          <li>
+            <a href="#repertoire" class="nav-link" data-view-target="repertoire">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>My Repertoire</span>
+            </a>
+          </li>
+          <li>
+            <a href="#progress" class="nav-link" data-view-target="progress">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Progress</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-subtle btn-block" id="nav-settings-btn" title="Open Settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Preferences</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+      <div class="brand-container">
+        <h1 class="brand-title">Chess Opening Trainer</h1>
+      </div>
+      <button class="mobile-hamburger" id="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobile-drawer">
+      <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+      <div class="mobile-drawer-content">
+        <div class="drawer-header">
+          <span class="drawer-title">Navigation</span>
+        </div>
+        <ul class="drawer-nav-list">
+          <li><a href="#dashboard" class="drawer-link" data-view-target="dashboard">Dashboard</a></li>
+          <li><a href="#practice" class="drawer-link" data-view-target="practice">Practice Board</a></li>
+          <li><a href="#library" class="drawer-link" data-view-target="library">Opening Library</a></li>
+          <li><a href="#traps" class="drawer-link" data-view-target="traps">Common Traps</a></li>
+          <li><a href="#repertoire" class="drawer-link" data-view-target="repertoire">My Repertoire</a></li>
+          <li><a href="#progress" class="drawer-link" data-view-target="progress">Progress</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="app-main" id="app-main">
+
+      <!-- ================= 1. DASHBOARD VIEW ================= -->
+      <section class="view-section active" id="view-dashboard">
+        <div class="view-header">
+          <div class="welcome-banner">
+            <span class="section-tag">OVERVIEW</span>
+            <h2 class="view-title">Welcome to your opening workshop</h2>
+            <p class="view-subtitle">Master classical and modern openings through systematic, active recall training.</p>
+          </div>
+        </div>
+
+        <!-- Continue Practice Hero Card -->
+        <div class="card continue-card">
+          <div class="continue-content">
+            <div class="continue-badge">NEXT SESSION</div>
+            <h3 class="continue-title" id="dash-next-opening-name">Italian Game (Giuoco Piano)</h3>
+            <p class="continue-desc" id="dash-next-opening-desc">Practise as White. 6 repertoire moves to recall.</p>
+          </div>
+          <div class="continue-actions">
+            <button class="btn btn-primary btn-lg" id="dash-continue-btn">
+              Continue Practice →
+            </button>
+          </div>
+        </div>
+
+        <!-- Key Metrics Row -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Total Attempts</span>
+            <span class="metric-value" id="dash-stat-attempts">0</span>
+            <span class="metric-hint">Cumulative moves played</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Overall Accuracy</span>
+            <span class="metric-value" id="dash-stat-accuracy">—</span>
+            <span class="metric-hint">First-attempt precision</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Openings Practised</span>
+            <span class="metric-value" id="dash-stat-openings">0 / 6</span>
+            <span class="metric-hint">Active syllabus coverage</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Completed Drills</span>
+            <span class="metric-value" id="dash-stat-sessions">0</span>
+            <span class="metric-hint">Full lines drilled</span>
+          </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="section-block">
+          <div class="section-block-header">
+            <h3 class="section-title">Recently Practised Openings</h3>
+            <a href="#library" class="section-link" data-view-target="library">Explore full library →</a>
+          </div>
+          <div class="recent-list-container" id="dash-recent-list">
+            <!-- Dynamically populated or sensible empty state -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. PRACTICE VIEW ================= -->
+      <section class="view-section" id="view-practice">
+        <div class="practice-top-bar">
+          <div class="practice-info">
+            <div class="practice-tags">
+              <span class="badge badge-opening" id="practice-side-badge">Playing as White</span>
+              <span class="badge badge-diff" id="practice-difficulty-badge">Beginner</span>
+            </div>
+            <h2 class="practice-opening-title" id="practice-opening-title">Italian Game — Giuoco Piano</h2>
+          </div>
+
+          <div class="practice-selector-wrapper">
+            <label for="practice-opening-select" class="sr-only">Switch opening</label>
+            <select id="practice-opening-select" class="form-select">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Practice Stage (Board + Assistant Panel) -->
+        <div class="practice-stage">
+          <!-- Chessboard Column -->
+          <div class="board-column">
+            <div id="practice-board-container" class="board-container">
+              <!-- Rendered by ChessboardUI -->
+            </div>
+
+            <!-- History Read-Only Banner -->
+            <div id="practice-history-banner" class="history-banner hidden">
+              <span id="practice-history-banner-text">Viewing past position</span>
+              <button class="btn btn-sm btn-primary" id="practice-return-btn">Resume Practice Move</button>
+            </div>
+
+            <!-- Under-board Utility Bar -->
+            <div class="board-utility-bar">
+              <button class="btn btn-sm btn-subtle" id="practice-flip-btn" title="Flip Board Orientation">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8v12M17 20l4-4M17 20l-4-4"/>
+                </svg>
+                <span>Flip Board</span>
+              </button>
+              <button class="btn btn-sm btn-subtle" id="practice-restart-btn" title="Restart Current Session">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Restart Session</span>
+              </button>
+              <span class="utility-score" id="practice-session-score">Score: —</span>
+            </div>
+          </div>
+
+          <!-- Practice Feedback & Navigation Column -->
+          <div class="assistant-column">
+            <!-- Dynamic Feedback & Prompt Banner -->
+            <div id="practice-feedback-banner" class="feedback-banner feedback-neutral">
+              <p class="feedback-text">Make your move on the board to practice.</p>
+            </div>
+
+            <!-- Hint & Solution Control Panel -->
+            <div class="assistant-controls-card">
+              <h4 class="card-mini-title">Assistance & Solutions</h4>
+              <p class="card-mini-desc">Test your recall first. If you are uncertain of the conceptual plan, use the progressive hint.</p>
+              <div class="assistant-buttons">
+                <button class="btn btn-outline btn-block" id="practice-hint-btn">
+                  💡 Request Hint
+                </button>
+                <button class="btn btn-subtle btn-block" id="practice-solution-btn">
+                  Show Expected Solution
+                </button>
+              </div>
+            </div>
+
+            <!-- Move History Notation Sheet -->
+            <div class="history-card">
+              <div class="history-header">
+                <h4 class="card-mini-title">Move Notation</h4>
+                <span class="history-helper-text">Click move to inspect position</span>
+              </div>
+              <div class="history-list" id="practice-history-list">
+                <!-- Move pairs rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. OPENING LIBRARY VIEW ================= -->
+      <section class="view-section" id="view-library">
+        <div class="view-header">
+          <span class="section-tag">CATALOG</span>
+          <h2 class="view-title">Opening Library</h2>
+          <p class="view-subtitle">Explore foundational opening systems with complete tactical ideas and move-by-move plans.</p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="library-filter-bar">
+          <div class="filter-search-box">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="library-search" class="form-input" placeholder="Search by opening name, ECO code, or concept...">
+          </div>
+          <div class="filter-dropdowns">
+            <select id="library-filter-side" class="form-select">
+              <option value="all">All Perspectives</option>
+              <option value="w">Playing as White</option>
+              <option value="b">Playing as Black</option>
+            </select>
+            <select id="library-filter-diff" class="form-select">
+              <option value="all">All Difficulties</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Openings Cards Grid -->
+        <div class="library-grid" id="library-list">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 4. COMMON TRAPS VIEW ================= -->
+      <section class="view-section" id="view-traps">
+        <div class="view-header">
+          <span class="section-tag">TACTICS & BLUNDERS</span>
+          <h2 class="view-title">Common Opening Traps & Mistakes</h2>
+          <p class="view-subtitle">Study verified opening pitfalls, understand the tactical refutation, and replay every line move-by-move.</p>
+        </div>
+
+        <div class="traps-grid" id="traps-list">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 5. MY REPERTOIRE VIEW ================= -->
+      <section class="view-section" id="view-repertoire">
+        <div class="view-header">
+          <span class="section-tag">PERSONAL SYLLABUS</span>
+          <h2 class="view-title">My Repertoire</h2>
+          <p class="view-subtitle">Manage the active opening lines you are committed to mastering in your personal study.</p>
+        </div>
+
+        <div class="repertoire-filter-bar">
+          <select id="repertoire-filter-side" class="form-select">
+            <option value="all">All Repertoire Lines</option>
+            <option value="w">White Openings</option>
+            <option value="b">Black Defenses</option>
+          </select>
+        </div>
+
+        <div class="repertoire-grid" id="repertoire-list">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ================= 6. PROGRESS VIEW ================= -->
+      <section class="view-section" id="view-progress">
+        <div class="view-header">
+          <span class="section-tag">ANALYTICS & RECALL</span>
+          <h2 class="view-title">Progress & Accuracy</h2>
+          <p class="view-subtitle">Genuine metrics calculated from your interactive practice sessions.</p>
+        </div>
+
+        <!-- Progress Overview Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Total Practice Attempts</span>
+            <span class="metric-value" id="prog-total-attempts">0</span>
+            <span class="metric-hint">All moves submitted</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Correct Moves</span>
+            <span class="metric-value text-success" id="prog-correct-moves">0</span>
+            <span class="metric-hint">Accurate repertoire moves</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Deviations & Retries</span>
+            <span class="metric-value text-danger" id="prog-mistakes">0</span>
+            <span class="metric-hint">Learning opportunities</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Overall Accuracy</span>
+            <span class="metric-value" id="prog-overall-accuracy">—</span>
+            <span class="metric-hint">True retention rate</span>
+          </div>
+        </div>
+
+        <!-- Accuracy Per Opening Breakdown -->
+        <div class="section-block">
+          <h3 class="section-title">Mastery Per Opening</h3>
+          <div class="breakdown-list" id="prog-openings-breakdown">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Recent Session History -->
+        <div class="section-block">
+          <h3 class="section-title">Recent Practice Sessions Log</h3>
+          <div class="sessions-list-wrapper" id="prog-sessions-list">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Danger Zone: Reset Progress -->
+        <div class="danger-zone-card">
+          <div class="danger-zone-info">
+            <h4>Reset Practice Records</h4>
+            <p>Clear all cumulative practice attempts and drill history. Your saved opening repertoire will remain intact unless explicitly selected.</p>
+          </div>
+          <button class="btn btn-outline-danger" id="open-reset-modal-btn">
+            Reset Practice Data...
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="settings-modal-title">Preferences & Settings</h3>
+        <button class="modal-close-btn" id="settings-modal-close" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <div class="setting-info">
+            <label for="setting-sound" class="setting-title">Acoustic Feedback</label>
+            <p class="setting-desc">Play subtle wooden piece sounds and feedback chimes via the Web Audio API.</p>
+          </div>
+          <input type="checkbox" id="setting-sound" class="toggle-checkbox" checked>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-info">
+            <label for="setting-auto-advance" class="setting-title">Auto-Advance Opponent</label>
+            <p class="setting-desc">Automatically play opponent’s response move after you find the correct move.</p>
+          </div>
+          <input type="checkbox" id="setting-auto-advance" class="toggle-checkbox" checked>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-info">
+            <label for="setting-legal-dots" class="setting-title">Legal Move Indicators</label>
+            <p class="setting-desc">Show subtle target dots on valid squares when selecting a piece.</p>
+          </div>
+          <input type="checkbox" id="setting-legal-dots" class="toggle-checkbox" checked>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-info">
+            <label for="setting-board-theme" class="setting-title">Chessboard Palette</label>
+            <p class="setting-desc">Visual appearance of the board squares.</p>
+          </div>
+          <select id="setting-board-theme" class="form-select">
+            <option value="classic">Classic Forest Green & Cream</option>
+            <option value="walnut">Warm Walnut & Maple</option>
+            <option value="slate">Slate Gray & Linen</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Confirmation Modal -->
+  <div class="modal" id="reset-modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="reset-modal-title">Reset Practice Progress</h3>
+        <button class="modal-close-btn" id="reset-modal-cancel" aria-label="Cancel">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to reset your practice statistics? This will reset all recorded attempts, accuracy rates, and session history back to zero.</p>
+        
+        <div class="checkbox-option">
+          <label>
+            <input type="checkbox" id="reset-clear-repertoire">
+            Also remove saved openings from My Repertoire (reset everything)
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-outline" onclick="document.getElementById('reset-modal').classList.remove('open')">Cancel</button>
+          <button class="btn btn-danger" id="reset-modal-confirm">Confirm Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trap Interactive Replay Modal -->
+  <div class="modal" id="trap-modal" role="dialog" aria-modal="true" aria-labelledby="trap-modal-title">
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="trap-modal-title">Trap Replay</h3>
+          <p class="modal-subtitle" id="trap-modal-desc">Follow the tactical line move by move.</p>
+        </div>
+        <button class="modal-close-btn" id="trap-modal-close" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="trap-modal-stage">
+          <div id="trap-board-container" class="trap-board-container"></div>
+          <div class="trap-modal-narrative">
+            <div class="trap-move-commentary" id="trap-move-text">
+              Use the controls below to step through each move.
+            </div>
+            <div class="trap-modal-controls">
+              <button class="btn btn-outline btn-sm" id="trap-reset-btn">Beginning</button>
+              <button class="btn btn-outline" id="trap-prev-btn">← Previous</button>
+              <button class="btn btn-primary" id="trap-next-btn">Next Move →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Application Entry Point -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

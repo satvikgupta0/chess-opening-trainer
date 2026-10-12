@@ -1,0 +1,19 @@
+{
+  "name": "chess-opening-trainer",
+  "version": "1.0.0",
+  "description": "Interactive Chess Opening Trainer for beginner and intermediate players",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node test/app.test.js"
+  },
+  "dependencies": {
+    "chess.js": "^1.4.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.4"
+  }
+}
